@@ -50,7 +50,7 @@ The default directory can be changed inside `config.py`
 		sudo screen -r 'uploading image'
 
 #License
-Apache License V3
+GPL V3
 	
 	Copyright (C) 2014 SZDIY Hackers' Community
 
