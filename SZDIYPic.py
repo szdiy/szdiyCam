@@ -49,11 +49,14 @@ class SZDIYPic:
 		topLeftHeight = int(im.size[1] - (im.size[1] / 10))
 		fileInfo = os.stat(TMPDIRECTORY+'/'+inputFileName)
 		timeInfo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(fileInfo.st_mtime))
-		if enableStoreImage:
-			self.__storeImg(outputFileName,timeInfo)
 
 		print "processing img..."
 		draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
 		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
+
+		#storage image to a archieve folder
+		if enableStoreImage:
+			self.__storeImg(outputFileName,timeInfo)
+		
 		del draw
 		del im
