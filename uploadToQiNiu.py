@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2013 QiNiu
-# Modified by (Paul) Jianer Shi 2014
+# Modified from https://github.com/paulshi/qiniu
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,14 +28,13 @@ import sys
 import qiniu.rs
 import qiniu.io
 
-def uploadToQiNiu(bucketName,fileName,localFilePath):
+def __upload(bucketName,fileName,localFilePath):
 	qiniu.conf.ACCESS_KEY = QiNiuACCESS_KEY
 	qiniu.conf.SECRET_KEY = QiNiuSECRET_KEY
 
 	policy = qiniu.rs.PutPolicy(bucketName)
 	policy.scope=bucketName+':'+unicode(fileName, "utf-8")
 	uptoken = policy.token()
-
 
 	extra = qiniu.io.PutExtra()
 	extra.mime_type = "image/jpeg"
@@ -46,3 +45,10 @@ def uploadToQiNiu(bucketName,fileName,localFilePath):
 	print ret;
 	if err is not None:
 	    sys.stderr.write('error: %s ' % err)
+
+def	uploadingAFileToQiNiu(bucket,fileName,localFilePath):
+	print "uploading to qiniu"
+	try:
+		__upload(bucket,fileName,localFilePath)
+	except:
+		print "upload to QiNiu failed"
