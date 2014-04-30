@@ -1,6 +1,6 @@
 #szdiyCam
 
-szdiyCam project is ran on top of a [Raspberry Pi](www.raspberrypi.org/‎) with its [camera board](www.raspberrypi.org/tag/camera-board/‎). It takes a picture every 20sec and upload it to a custom image API server and [QiNiu](qiniu.com). The pictures taken are stored away in a local folder for later retrieval. 
+szdiyCam project is ran on top of a [Raspberry Pi](www.raspberrypi.org/‎) with its [camera board](www.raspberrypi.org/tag/camera-board/‎). It takes a picture every 20sec and upload it to a custom image API server and [QiNiu](qiniu.com). The pictures taken are stored away in a local folder for later retrieval. The project is community project by [SZDIY Hackers' Community](http://www.szdiy.org/).
 
 ##Default Directory
 The default directory can be changed inside `config.py`
