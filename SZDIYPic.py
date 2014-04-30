@@ -54,7 +54,7 @@ class SZDIYPic:
 		draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
 		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
 
-		#storage image to a archieve folder
+		#storage image to a archive folder
 		if enableStoreImage:
 			self.__storeImg(outputFileName,timeInfo)
 		
