@@ -33,11 +33,11 @@ while True:
 	#takeAShot(name,width,height):
 	snapshot.takeAShot('image.jpg',800,600);
 	#resizeImageAndApplyWaterMark (inputFileName, outputFileName, quality, enableStoreImage)
-	snapshot.resizeImageAndApplyWaterMark ('image.jpg', 'new.jpg', 80, False)
+	snapshot.resizeImageAndApplyWaterMark ('image.jpg', 'new.jpg', 80, True) #we only store the low resolution image locally because of the storage limit
 	uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 	time.sleep(1)
 	
 	snapshot.takeAShot('image.jpg',1024,768);
-	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95, True)
+	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95, False)
 	uploadingAFileToQiNiu('szdiy','new.jpg',TMPDIRECTORY)
 	time.sleep(20)
