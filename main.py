@@ -37,8 +37,9 @@ while True:
 	uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 	time.sleep(1)
 	
-	snapshot.takeAShot('image.jpg',2592,1944)
-	snapshot.storeImg('image.jpg', TMPDIRECTORY) #this now saves the original image
+	snapshot.takeAShot('image.jpg',1600,1200)
+	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95, False)
+	snapshot.storeImg('new.jpg', TMPDIRECTORY) #this saves the image after compressing but without watermark
 	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95)
 	uploadingAFileToQiNiu('szdiy','new.jpg',TMPDIRECTORY)
 

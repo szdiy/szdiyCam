@@ -40,18 +40,23 @@ class SZDIYPic:
 
 		os.system('cp '+fileDirectory+'/'+fileName+' '+imagePath+'/'+date+ '/' + time + '.jpg')
 
-	def resizeImageAndApplyWaterMark (self,inputFileName, outputFileName, quality):
+	def resizeImageAndApplyWaterMark (self,inputFileName, outputFileName, quality, enWaterMark=True):
 		print "working on img"
 		im = Image.open(TMPDIRECTORY+'/'+inputFileName)
-		draw = ImageDraw.Draw(im)
-		textPadding = 5
-		topLeftWidth = int(im.size[0] - (im.size[0] / 4))
-		topLeftHeight = int(im.size[1] - (im.size[1] / 10))
-		timeInfo = self.__getPicTimeStampString(inputFileName, TMPDIRECTORY, '%Y-%m-%d %H:%M:%S')
+		
+		if enWaterMark:
+			draw = ImageDraw.Draw(im)
+			textPadding = 5
+			topLeftWidth = int(im.size[0] - (im.size[0] / 4))
+			topLeftHeight = int(im.size[1] - (im.size[1] / 10))
+			timeInfo = self.__getPicTimeStampString(inputFileName, TMPDIRECTORY, '%Y-%m-%d %H:%M:%S')
 
-		print "processing img..."
-		draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
+			print "processing img..."
+			draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
+		
 		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
 		
-		del draw
+		if enWaterMark:
+			del draw
+
 		del im
