@@ -22,10 +22,10 @@ class PictureCamera:
 	def __init__(self):
 		self.camera = picamera.PiCamera()
 
-	def takeAShot(self,name,width,height):
+	def takeAShot(self,name,width,height, quality=100):
 		self.camera.resolution = (width,height)
 		try:
-			self.camera.capture(name)
+			self.camera.capture(name, format='jpeg',quality=quality)
 		except:
 			print "capture error"
 	
