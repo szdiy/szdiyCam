@@ -25,9 +25,15 @@ The default directory can be changed in `config.py`
 
 		pip install -r requirements.txt 
 
-5. If you have already installed PIL in your system, and step 4 failed, manually link your PIL library inside virtualenv directory
+5. (optional)
+	* Install `pyexiv2` which is used to make sure `exif` data is copied over correctly
 
-		ln -s /usr/local/lib/python2.7/dist-packages/PIL* venv/lib/python2.7/site-packages/
+			sudo apt-get install python-pyexiv2
+
+	* Link the `pyexiv2` library to virtual environment
+		
+			ln -s /usr/lib/python2.7/dist-packages/libexiv2python.so venv/lib/python2.7/site-packages/
+			ln -s /usr/lib/python2.7/dist-packages/pyexiv2 venv/lib/python2.7/site-packages/
 		
 6. copy `credentials.py.sample` to `credentials.py`. You will need to arrange your own picture API server there. The sample used [QiNiu](qiniu.com) and a custom written API image server backend which is not part of this project. But it can be easily extended for other image uploading service such as [Imagur API](https://api.imgur.com)
 

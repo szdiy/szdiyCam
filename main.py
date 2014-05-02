@@ -32,14 +32,14 @@ while True:
 
 	#takeAShot(name,width,height):
 	snapshot.takeAShot('image.jpg',800,600)
-	snapshot.resizeImageAndApplyWaterMark ('image.jpg', 'new.jpg', quality=80, fontSize=14, hLocation=5, vLocation=5)
+	snapshot.compressImageAndApplyWaterMark ('image.jpg', 'new.jpg', quality=80, fontSize=14, hLocation=5, vLocation=5)
 	uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 	time.sleep(1)
 	
 	snapshot.takeAShot('image.jpg',1600,1200)
-	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg', quality=95, enWaterMark=False)
+	snapshot.compressImageAndApplyWaterMark('image.jpg','new.jpg', quality=95, enWaterMark=False)
 	snapshot.storeImg('new.jpg', TMPDIRECTORY) #this saves the image after compressing but without watermark
-	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg', quality=95, fontSize=27, hLocation=10, vLocation=10)
+	snapshot.compressImageAndApplyWaterMark('image.jpg','new.jpg', quality=95, fontSize=27, hLocation=10, vLocation=10)
 	uploadingAFileToQiNiu('szdiy','new.jpg',TMPDIRECTORY)
 
 	time.sleep(20)

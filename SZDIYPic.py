@@ -40,7 +40,26 @@ class SZDIYPic:
 
 		os.system('cp '+fileDirectory+'/'+fileName+' '+imagePath+'/'+date+ '/' + time + '.jpg')
 
-	def resizeImageAndApplyWaterMark (self,inputFileName, outputFileName, quality=85, enWaterMark=True, **waterMarkArgs):
+	def __copyEXIF(self,originalImagePath,destinationImagePath):
+		try:
+			import pyexiv2
+		except ImportError:
+			print "pyexiv2 is not installed correctly, exif data won't be correct"
+			return
+
+		sourceImage = pyexiv2.metadata.ImageMetadata(originalImagePath)
+		destinationImage = pyexiv2.metadata.ImageMetadata(destinationImagePath)
+		sourceImage.read() #required to process the exif data
+		destinationImage.read() #required to process the exif data
+		sourceImage.copy(destinationImage)
+
+		image = Image.open(destinationImagePath)
+		destinationImage["Exif.Photo.PixelXDimension"] = image.size[0]
+		destinationImage["Exif.Photo.PixelYDimension"] = image.size[1]
+		destinationImage.write()
+		del image
+
+	def compressImageAndApplyWaterMark (self,inputFileName, outputFileName, quality=85, enWaterMark=True, **waterMarkArgs):
 		print "working on img"
 		im = Image.open(TMPDIRECTORY+'/'+inputFileName)
 		
@@ -62,5 +81,6 @@ class SZDIYPic:
 			del draw
 
 		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
+		self.__copyEXIF(TMPDIRECTORY+'/'+inputFileName,TMPDIRECTORY+'/'+outputFileName) #copy the exif data over
 
 		del im
