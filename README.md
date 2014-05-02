@@ -25,7 +25,7 @@ The default directory can be changed in `config.py`
 
 		pip install -r requirements.txt 
 
-5. (optional)
+5. (optional) EXIF support
 	* Install `pyexiv2` which is used to make sure `exif` data is copied over correctly
 
 			sudo apt-get install python-pyexiv2        
