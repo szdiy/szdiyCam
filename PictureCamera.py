@@ -25,7 +25,7 @@ class PictureCamera:
 	def takeAShot(self,name,width,height):
 		self.camera.resolution = (width,height)
 		try:
-			self.camera.capture(name)
+			self.camera.capture(name, format='jpeg')
 		except:
 			print "capture error"
 	

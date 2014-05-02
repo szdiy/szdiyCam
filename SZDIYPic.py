@@ -27,36 +27,36 @@ class SZDIYPic:
 	def takeAShot(self,name,width,height):
 		self.aCamera.takeAShot(name,width,height);
 		#move the pic to tmp directory
-		os.system('mv image.jpg '+TMPDIRECTORY)
+		os.system('mv '+name+' '+TMPDIRECTORY)
 
-	def __storeImg(self,finalFileName, timeStampString):
-		timeInfo = timeStampString.split(' ')
-		date=timeInfo[0];
-		time=timeInfo[1];
+	def __getPicTimeStampString(self,fileName, fileDirectory, stringFormat):
+		fileInfo = os.stat(fileDirectory+'/'+fileName)
+		return time.strftime(stringFormat, time.localtime(fileInfo.st_mtime))
+
+	def storeImg(self,fileName, fileDirectory):
+		date,time = self.__getPicTimeStampString(fileName, TMPDIRECTORY, '%Y-%m-%d %H.%M.%S').split(' ')
 
 		os.system('mkdir -p ' + imagePath+'/'+date)
 
-		timeArray = time.split(':')
-		fileName = timeArray[0]+'.'+timeArray[1]+'.'+timeArray[2]+'.jpg'
-		os.system('cp '+TMPDIRECTORY+'/'+finalFileName+' '+imagePath+'/'+date+ '/' + fileName)
+		os.system('cp '+fileDirectory+'/'+fileName+' '+imagePath+'/'+date+ '/' + time + '.jpg')
 
-	def resizeImageAndApplyWaterMark (self,inputFileName, outputFileName, quality, enableStoreImage):
+	def resizeImageAndApplyWaterMark (self,inputFileName, outputFileName, quality, enWaterMark=True):
 		print "working on img"
 		im = Image.open(TMPDIRECTORY+'/'+inputFileName)
-		draw = ImageDraw.Draw(im)
-		textPadding = 5
-		topLeftWidth = int(im.size[0] - (im.size[0] / 4))
-		topLeftHeight = int(im.size[1] - (im.size[1] / 10))
-		fileInfo = os.stat(TMPDIRECTORY+'/'+inputFileName)
-		timeInfo = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(fileInfo.st_mtime))
-
-		print "processing img..."
-		draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
-		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
-
-		#storage image to a archieve folder
-		if enableStoreImage:
-			self.__storeImg(outputFileName,timeInfo)
 		
-		del draw
+		if enWaterMark:
+			draw = ImageDraw.Draw(im)
+			textPadding = 5
+			topLeftWidth = int(im.size[0] - (im.size[0] / 4))
+			topLeftHeight = int(im.size[1] - (im.size[1] / 10))
+			timeInfo = self.__getPicTimeStampString(inputFileName, TMPDIRECTORY, '%Y-%m-%d %H:%M:%S')
+
+			print "processing img..."
+			draw.text([topLeftWidth + textPadding, topLeftHeight + textPadding], timeInfo, fill="green")
+		
+		im.save(TMPDIRECTORY+'/'+outputFileName, 'JPEG', quality=quality)
+		
+		if enWaterMark:
+			del draw
+
 		del im

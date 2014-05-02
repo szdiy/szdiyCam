@@ -26,18 +26,23 @@ def setDefaultNetworkTimeOut(timeout):
 	socket.setdefaulttimeout(timeout)
 
 snapshot = SZDIYPic() #initialize an instance
-setDefaultNetworkTimeOut(20) #set network timeout to 20secs
+setDefaultNetworkTimeOut(30) #set network timeout
 
 while True:
 
 	#takeAShot(name,width,height):
-	snapshot.takeAShot('image.jpg',800,600);
-	#resizeImageAndApplyWaterMark (inputFileName, outputFileName, quality, enableStoreImage)
-	snapshot.resizeImageAndApplyWaterMark ('image.jpg', 'new.jpg', 80, True) #we only store the low resolution image locally because of the storage limit
+	snapshot.takeAShot('image.jpg',800,600)
+	#resizeImageAndApplyWaterMark (inputFileName, outputFileName, quality)
+	snapshot.resizeImageAndApplyWaterMark ('image.jpg', 'new.jpg', 80)
 	uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 	time.sleep(1)
 	
-	snapshot.takeAShot('image.jpg',1024,768);
+	snapshot.takeAShot('image.jpg',1600,1200)
 	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95, False)
+	snapshot.storeImg('new.jpg', TMPDIRECTORY) #this saves the image after compressing but without watermark
+	snapshot.resizeImageAndApplyWaterMark('image.jpg','new.jpg',95)
 	uploadingAFileToQiNiu('szdiy','new.jpg',TMPDIRECTORY)
+
 	time.sleep(20)
+
+

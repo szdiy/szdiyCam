@@ -1,19 +1,19 @@
 #szdiyCam
 
-szdiyCam project is ran on top of a [Raspberry Pi](www.raspberrypi.org/‎) with its [camera board](www.raspberrypi.org/tag/camera-board/‎). It takes a picture every 20sec and upload it to a custom image API server and [QiNiu](qiniu.com). The pictures taken are stored away in a local folder for later retrieval. The project is community project by [SZDIY Hackers' Community](http://www.szdiy.org/).
+szdiyCam project runs on top of a [Raspberry Pi](www.raspberrypi.org/‎) with its [camera board](www.raspberrypi.org/tag/camera-board/‎). It takes a picture every 20sec and uploads it to a custom image API server and [QiNiu](qiniu.com). The pictures taken are stored away in a local folder for later retrieval. The project is a community project by [SZDIY Hackers' Community](http://www.szdiy.org/).
 
 ##Default Directory
-The default directory can be changed inside `config.py`
+The default directory can be changed in `config.py`
 
-1. `/tmp` for temporary picture storage before moving to a storage location
-2. `/home/pi/szdiy_img` stores every pictures taken. They are sorted by date into different folders under it
+1. `/tmp` for temporary picture storage before moving to a archive location
+2. `/home/pi/szdiy_img` stores every pictures taken. They are sorted by date into different folders.
 
 ##Setup
 1. Clone the project
 
 		cd szdiyCam
 		
-2. Setup virtual environment to insure anything you did inside the directory does not pollute your system
+2. Setup virtual environment to ensure anything you did inside the directory does not pollute OS
 
 		virtualenv venv
 		
@@ -25,13 +25,13 @@ The default directory can be changed inside `config.py`
 
 		pip install -r requirements.txt 
 
-5. If you already install PIL in your system, and step 3 failed, manually link your PIL library inside virtualenv directory
+5. If you have already installed PIL in your system, and step 4 failed, manually link your PIL library inside virtualenv directory
 
 		ln -s /usr/local/lib/python2.7/dist-packages/PIL* venv/lib/python2.7/site-packages/
 		
 6. copy `credentials.py.sample` to `credentials.py`. You will need to arrange your own picture API server there. The sample used [QiNiu](qiniu.com) and a custom written API image server backend which is not part of this project. But it can be easily extended for other image uploading service such as [Imagur API](https://api.imgur.com)
 
-7. If you get a [QiNiu](qiniu.com) API key successfully, you can now run without any issues
+7. If you get a [QiNiu](qiniu.com) API key successfully setup in step 6, you can now run without any issues
 
 		python main.py
 
