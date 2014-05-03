@@ -17,16 +17,18 @@
 
 import os
 import picamera
+import time
 
 class PictureCamera:
 	def __init__(self):
-		self.camera = picamera.PiCamera()
+		pass
 
 	def takeAShot(self,name,width,height):
+		self.camera = picamera.PiCamera()
 		self.camera.resolution = (width,height)
 		try:
+			time.sleep(2) #camera warm up time
 			self.camera.capture(name, format='jpeg')
 		except:
 			print "capture error"
-	
-	
+		self.camera.close()
