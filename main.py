@@ -17,7 +17,8 @@
 
 from config import TMPDIRECTORY, imagePath
 from SZDIYPic import SZDIYPic
-from uploadToLinode import uploadAFileToLinode
+from WX import WX
+from uploadToLinode import uploadAFileToLinode, uploadAFileToLinodeWithWXMediaID
 from uploadToQiNiu import uploadingAFileToQiNiu
 import time
 
@@ -26,6 +27,7 @@ def setDefaultNetworkTimeOut(timeout):
 	socket.setdefaulttimeout(timeout)
 
 snapshot = SZDIYPic() #initialize an instance
+aWX = WX() #initialize a WX instance, this will request a new accesstoken
 setDefaultNetworkTimeOut(30) #set network timeout
 
 while True:
@@ -33,7 +35,9 @@ while True:
 	#takeAShot(name,width,height):
 	snapshot.takeAShot('image.jpg',800,600)
 	snapshot.compressImageAndApplyWaterMark ('image.jpg', 'new.jpg', quality=80, fontSize=14, hLocation=5, vLocation=5)
-	uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
+	media_id,created_at = aWX.uploadToWx('new.jpg',TMPDIRECTORY) #upload new picture to weixin
+	# uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg') 
+	uploadAFileToLinodeWithWXMediaID(TMPDIRECTORY+'/'+'new.jpg', media_id, created_at) #upload new pic to REST API picture server and notify it with weixin picture id at the same time.
 	time.sleep(1)
 	
 	snapshot.takeAShot('image.jpg',1600,1200)

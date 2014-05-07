@@ -26,6 +26,12 @@ class PictureCamera:
 	def takeAShot(self,name,width,height):
 		self.camera = picamera.PiCamera()
 		self.camera.resolution = (width,height)
+		
+		self.camera.ISO = 0
+		self.camera.meter_mode = 'matrix'
+		self.camera.exposure_mode = 'auto'
+		self.camera.awb_mode='auto'
+
 		try:
 			time.sleep(2) #camera warm up time
 			self.camera.capture(name, format='jpeg')
