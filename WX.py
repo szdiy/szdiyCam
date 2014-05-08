@@ -24,7 +24,11 @@ class WX:
 	def refreshAccessToken(self):
 		self.currentAccessToken = self.__getNewAccessToken()
 
-	#upload a file to weixin
+	'''
+	upload a file to weixin
+	return (media_id, created_at)
+	return (-1,-1) upon exception
+	'''
 	def uploadToWx(self, image, directory):
 		files={'files': open(directory+'/'+image, 'rb')}  
 		try:
@@ -40,10 +44,17 @@ class WX:
 					self.refreshAccessToken()
 					print ('retry uploading')
 					return self.uploadToWx(image,directory) #retry if fail
+				else:
+					print 'error code: {} | {}'.format(r.json()['errcode'],r.json()['errmsg'])
+					raise ValueError
 			else:
-				print "unknown error: {}".format(r.json())
+				print "unknown error"
+				raise ValueError
+		except ValueError:
+			return (-1,-1)
 		except:
 			print "upload network error"
+			return (-1,-1)
 	
 	#weixin need to inject current access token into its upload url address
 	def __getUrlEndpointForUpload(self):
