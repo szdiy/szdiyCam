@@ -18,7 +18,7 @@
 from config import TMPDIRECTORY, imagePath
 from SZDIYPic import SZDIYPic
 from WX import WX
-from uploadToLinode import uploadAFileToLinodeWithWXMediaID
+from uploadToLinode import uploadAFileToLinodeWithWXMediaID, uploadAFileToLinode
 from uploadToQiNiu import uploadingAFileToQiNiu
 import time
 import sys
@@ -36,9 +36,9 @@ while True:
 	#takeAShot(name,width,height):
 	snapshot.takeAShot('image.jpg',800,600)
 	snapshot.compressImageAndApplyWaterMark ('image.jpg', 'new.jpg', quality=80, fontSize=14, hLocation=5, vLocation=5)
-	media_id,created_at = aWX.uploadToWx('new.jpg',TMPDIRECTORY) #upload new picture to weixin
-	if media_id != -1 and created_at !=-1 :
-		uploadAFileToLinodeWithWXMediaID(TMPDIRECTORY+'/'+'new.jpg', media_id, created_at) #upload new pic to REST API picture server and notify it with weixin picture id at the same time.
+	media_id,created_at = aWX.uploadToWxWithAPICallLimit(500,'new.jpg',TMPDIRECTORY) #upload new picture to weixin
+	uploadAFileToLinodeWithWXMediaID(TMPDIRECTORY+'/'+'new.jpg', media_id, created_at) #upload new pic to REST API picture server and notify it with weixin picture id at the same time.
+	# uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 
 	time.sleep(1)
 	

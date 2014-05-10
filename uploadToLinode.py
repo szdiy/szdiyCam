@@ -17,27 +17,29 @@
 import requests
 from credentials import LinodeServerImageUploadAPIURL, SZDIYCamAPIBaseURL
 
-# def __upload(files):
-# 	print "uploading image to linode"
-# 	requests.post(LinodeServerImageUploadAPIURL,files=files, timeout=20) #set time out at 20 secs
-# 	print "image upload complete"
+def __upload(files):
+	print "uploading image to linode"
+	requests.post(LinodeServerImageUploadAPIURL,files=files, timeout=20) #set time out at 20 secs
+	print "image upload complete"
 
-# def uploadAFileToLinode(fileLocation):
-# 	aFile = open(fileLocation,'rb')
-# 	files = {'file': aFile}
-# 	try:
-# 		__upload(files)
-# 	except:
-# 		print "Network seems down, try again later..."
-# 	aFile.close();
+def uploadAFileToLinode(fileLocation):
+	aFile = open(fileLocation,'rb')
+	files = {'file': aFile}
+	try:
+		__upload(files)
+	except:
+		print "Network seems down, try again later..."
+	aFile.close();
 
 def uploadAFileToLinodeWithWXMediaID(fileLocation, media_id, created_at):
+	print "uploading image to linode"
 	aFile = open(fileLocation,'rb')
 	files = {'file': aFile}
 	
 	try:
-		postAddress = SZDIYCamAPIBaseURL+str(media_id)+'/'+str(created_at)+'/upload'
+		postAddress = SZDIYCamAPIBaseURL+'/'+str(media_id)+'/'+str(created_at)+'/upload'
 		r = requests.post(postAddress,files=files, timeout=20) #set time out at 20 secs
+		print r
 	except:
 		print "Network seems down, try again later..."
 	aFile.close();
