@@ -14,6 +14,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
+
 import requests
 from credentials import LinodeServerImageUploadAPIURL, SZDIYCamAPIBaseURL
 
