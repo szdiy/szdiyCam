@@ -39,6 +39,11 @@ The default directory can be changed in `config.py`
 
 		python main.py
 
+###Wechat 微信
+[Wechat](www.wechat.com/) is integrated in the uploading process. Our backend server handles normal picture upload and Wechat API at a single URL endpoint (not included in this project). 
+
+`uploadAFileToLinodeWithWXMediaID` handles uploading image to the Wechat server as well as our  backend server. It reports the Wechat server response to our backend. Our backend will use this info to redeliver captured images stored on Wechat server to a Wechat App. To use without Wechat, use `uploadAFileToLinode` instead.
+
 ###Setup as System Service
 1. put `uploadingimage` under ```/etc/init.d/uploadingimage```
 2. Make it executable

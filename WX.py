@@ -7,9 +7,9 @@ urlEndPoint_AccessToken = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=cl
 class WX:
 	def __init__(self):
 		self.currentAccessToken = self.__getNewAccessToken() #at initialization, get a new access token
-		self.lastUploadTime = datetime.datetime.now()
-		self.lastMedia_id = -1
-		self.lastCreated_at = -1
+		self.lastUploadTime = datetime.datetime.now() #keeps track of last upload time
+		self.lastMedia_id = -1 #keeps track of last successful upload media_id
+		self.lastCreated_at = -1 #keeps track of last successful upload created_at
 
 	def __getNewAccessToken(self):
 		try:
@@ -28,11 +28,12 @@ class WX:
 	def refreshAccessToken(self):
 		self.currentAccessToken = self.__getNewAccessToken()
 
-	'''
-	upload a file to weixin
+	"""
+	upload a file to weixin, private function
 	return (media_id, created_at)
 	return (-1,-1) upon exception
-	'''
+	
+	"""
 	def __uploadToWx(self, image, directory):
 		files={'files': open(directory+'/'+image, 'rb')}  
 		try:
@@ -46,8 +47,8 @@ class WX:
 					print ('old access token no longer work, get new access token')
 					self.refreshAccessToken()
 					print ('retry uploading')
-					return self.__uploadToWx(image,directory) #retry if fail
-				else:
+					return self.__uploadToWx(image,directory) #retry if access token is expired
+				else: #handling unknown error code
 					print 'error code: {} | {}'.format(r.json()['errcode'],r.json()['errmsg'])
 					raise ValueError
 			else:
@@ -59,14 +60,22 @@ class WX:
 			print "upload network error"
 			return (-1,-1)
 	
-	'''
+	"""
 	upload a file to weixin with api rate limiting
 	return (media_id, created_at)
-	return (-1,-1) upon exception
-	'''
+	return last successful media_id and created_at on error
+	
+	:type numbersPerDay: int
+	:param numbersPerDay: limit api call to x times per day
+	:type image: str
+	:param image: image name such as new.jpg
+	:type directory: str
+	:param directory: directory location such as /tmp
+
+	"""
 	def uploadToWxWithAPICallLimit(self, numbersPerDay, image, directory):
 		try:
-			oncePerHowManySeconds = 24*3600/numbersPerDay
+			oncePerHowManySeconds = 24*3600/numbersPerDay #calcuate the execution frequency 'once per x seconds'
 		except:
 			print "numbersPerDay cannot be 0, set to default upload"
 			media_id,created_at  = self.__uploadToWx(image,directory)
@@ -82,7 +91,7 @@ class WX:
 			media_id,created_at  = self.__uploadToWx(image,directory)
 			self.lastMedia_id = media_id
 			self.lastCreated_at = created_at
-			self.lastUploadTime = currentTime #update update time
+			self.lastUploadTime = currentTime #update upload time
 		else:
 			print 'last upload to WX happened {} seconds ago, less than {} seconds required to meet the API limit for {} times per day'.format(timeDiff, oncePerHowManySeconds, numbersPerDay)
 			print 'media_id: {} | created_at: {}'.format(self.lastMedia_id, self.lastCreated_at)
