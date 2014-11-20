@@ -33,11 +33,15 @@ The default directory can be changed in `config.py`
 		
 			ln -s /usr/lib/python2.7/dist-packages/libexiv2python.so venv/lib/python2.7/site-packages/
 			ln -s /usr/lib/python2.7/dist-packages/pyexiv2 venv/lib/python2.7/site-packages/
-6. copy `credentials.py.sample` to `credentials.py`. You will need to arrange your own picture API server there. The sample used [QiNiu](qiniu.com) and a custom written API image server backend which is not part of this project. But it can be easily extended for other image uploading service such as [Imagur API](https://api.imgur.com)
+6. copy `credentials.py.sample` to `credentials.py`. You will need to arrange your own picture API server there. The sample used [QiNiu](qiniu.com) and a custom written API image server backend which is not part of this project. But it can be easily extended for other image uploading service such as [Imagur API](https://api.imgur.com) by creating your own uploading functions.
 
 7. If you get a [QiNiu](qiniu.com) API key successfully setup in step 6, you can now run without any issues
 
 		python main.py
+
+8. (Optional) A clear archive script is added for maintenance. You can add it to crontab so it can run once everyday.
+		$ crontab -e 
+		0 24 * * * python /home/pi/szdiyCam/clearArchive.py 1>>/home/pi/szdiycam_cleararchive.log 2>> /home/pi/szdiycam_cleararchive.log &
 
 ###Setup as System Service
 1. put `uploadingimage` under ```/etc/init.d/uploadingimage```
