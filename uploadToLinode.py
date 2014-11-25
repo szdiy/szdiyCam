@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 import requests
-from credentials import LinodeServerImageUploadAPIURL
+from credentials import LinodeServerImageUploadAPIURL, SZDIYCamAPIBaseURL
 
 def __upload(files):
 	print "uploading image to linode"
@@ -29,5 +29,18 @@ def uploadAFileToLinode(fileLocation):
 		__upload(files)
 	except:
 		print "Network seems down, try again later..."
-	
 	aFile.close();
+
+def uploadAFileToLinodeWithWXMediaID(fileLocation, media_id, created_at):
+	print "uploading image to linode"
+	aFile = open(fileLocation,'rb')
+	files = {'file': aFile}
+	
+	try:
+		postAddress = SZDIYCamAPIBaseURL+'/'+str(media_id)+'/'+str(created_at)+'/upload'
+		r = requests.post(postAddress,files=files, timeout=20) #set time out at 20 secs
+		print r
+	except:
+		print "Network seems down, try again later..."
+	aFile.close();
+

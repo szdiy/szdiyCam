@@ -41,7 +41,7 @@ The default directory can be changed in `config.py`
 
 8. (Optional) A clear archive script is added for maintenance. You can add it to crontab so it can run once everyday.
 		$ crontab -e 
-		0 24 * * * python /home/pi/szdiyCam/clearArchive.py 1>>/home/pi/szdiycam_cleararchive.log 2>> /home/pi/szdiycam_cleararchive.log &
+		0 0 * * * python /home/pi/szdiyCam/clearArchive.py 1>>/home/pi/szdiycam_cleararchive.log 2>> /home/pi/szdiycam_cleararchive.log &
 
 ###Setup as System Service
 1. put `uploadingimage` under ```/etc/init.d/uploadingimage```
