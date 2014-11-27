@@ -17,3 +17,4 @@
 
 TMPDIRECTORY  = '/tmp'
 imagePath = '/home/pi/szdiy_img'
+WXAPIUploadLimitPerDay = 500 #set the limit of api call per day for wechat

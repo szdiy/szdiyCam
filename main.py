@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 
-from config import TMPDIRECTORY, imagePath
+from config import TMPDIRECTORY, imagePath, WXAPIUploadLimitPerDay
 from SZDIYPic import SZDIYPic
 from WX import WX
 from uploadToLinode import uploadAFileToLinodeWithWXMediaID, uploadAFileToLinode
@@ -36,7 +36,7 @@ while True:
 	#takeAShot(name,width,height):
 	snapshot.takeAShot('image.jpg',800,600)
 	snapshot.compressImageAndApplyWaterMark ('image.jpg', 'new.jpg', quality=80, fontSize=14, hLocation=5, vLocation=5)
-	media_id,created_at = aWX.uploadToWxWithAPICallLimit(500,'new.jpg',TMPDIRECTORY) #upload new picture to weixin
+	media_id,created_at = aWX.uploadToWxWithAPICallLimit(WXAPIUploadLimitPerDay,'new.jpg',TMPDIRECTORY) #upload new picture to weixin
 	uploadAFileToLinodeWithWXMediaID(TMPDIRECTORY+'/'+'new.jpg', media_id, created_at) #upload new pic to REST API picture server and notify it with weixin picture id at the same time.
 	# uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 

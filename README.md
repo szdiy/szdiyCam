@@ -43,6 +43,11 @@ The default directory can be changed in `config.py`
 		$ crontab -e 
 		0 0 * * * python /home/pi/szdiyCam/clearArchive.py 1>>/home/pi/szdiycam_cleararchive.log 2>> /home/pi/szdiycam_cleararchive.log &
 
+###Wechat 微信
+[Wechat](http://www.wechat.com/) is integrated in the uploading process. Our backend server handles normal picture upload and Wechat API at a single URL endpoint (not included in this project). 
+
+`uploadAFileToLinodeWithWXMediaID` handles uploading image to the Wechat server as well as our  backend server. It reports the Wechat server response to our backend. Our backend will use this info to redeliver captured images stored on Wechat server to a Wechat App. To use without Wechat, use `uploadAFileToLinode` instead.
+
 ###Setup as System Service
 1. put `uploadingimage` under ```/etc/init.d/uploadingimage```
 2. Make it executable
