@@ -1,9 +1,7 @@
 import os
 import shutil
 from datetime import datetime
-
-DATE = 7
-ARCHIVE_PATH = '/home/pi/szdiy_img/'
+from config import IMAGE_PATH, ARCHIVE_DATE
 
 def date_diff(dateStr):
     try:
@@ -16,7 +14,7 @@ def date_diff(dateStr):
 
 def clear_archive():
     for folder in os.listdir(ARCHIVE_PATH):
-        if date_diff(folder) > DATE:
+        if date_diff(folder) > ARCHIVE_DATE:
             shutil.rmtree(os.path.join(ARCHIVE_PATH, folder))
             print("delete folder: " + str(folder))
 

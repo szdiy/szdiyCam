@@ -15,9 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 
-from config import TMPDIRECTORY, imagePath
+from config import TMPDIRECTORY, IMAGE_PATH
 from PIL import Image, ImageDraw, ImageFont
-from PictureCamera import PictureCamera
+from picture.PictureCamera import PictureCamera
 import time, os, sys
 
 class SZDIYPic:
@@ -36,9 +36,9 @@ class SZDIYPic:
 	def storeImg(self,fileName, fileDirectory):
 		date,time = self.__getPicTimeStampString(fileName, TMPDIRECTORY, '%Y-%m-%d %H.%M.%S').split(' ')
 
-		os.system('mkdir -p ' + imagePath+'/'+date)
+		os.system('mkdir -p ' + IMAGE_PATH+'/'+date)
 
-		os.system('cp '+fileDirectory+'/'+fileName+' '+imagePath+'/'+date+ '/' + time + '.jpg')
+		os.system('cp '+fileDirectory+'/'+fileName+' '+IMAGE_PATH+'/'+date+ '/' + time + '.jpg')
 
 	def __copyEXIF(self,originalImagePath,destinationImagePath):
 		try:
@@ -62,7 +62,7 @@ class SZDIYPic:
 	def compressImageAndApplyWaterMark (self,inputFileName, outputFileName, quality=85, enWaterMark=True, **waterMarkArgs):
 		print "working on img"
 		im = Image.open(TMPDIRECTORY+'/'+inputFileName)
-		
+
 		if enWaterMark:
 			timeInfo = self.__getPicTimeStampString(inputFileName, TMPDIRECTORY, '%Y-%m-%d %H:%M:%S')
 
@@ -74,7 +74,7 @@ class SZDIYPic:
 			# use a truetype font
 			fontPath = os.path.dirname(os.path.abspath(__file__))+'/'+'KellySlab-Regular.ttf'
 			font = ImageFont.truetype(fontPath, fontSize)
-			
+
 			print "processing img..."
 			draw = ImageDraw.Draw(im)
 			draw.text((hLocation, vLocation), timeInfo, font=font)

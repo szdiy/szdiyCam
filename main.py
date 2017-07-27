@@ -15,11 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 
-from config import TMPDIRECTORY, imagePath, WXAPIUploadLimitPerDay
-from SZDIYPic import SZDIYPic
-from WX import WX
-from uploadToLinode import uploadAFileToLinodeWithWXMediaID, uploadAFileToLinode
-from uploadToQiNiu import uploadingAFileToQiNiu
+from config import TMPDIRECTORY, IMAGE_PATH, WXAPIUploadLimitPerDay
+from picture.SZDIYPic import SZDIYPic
+from lib.WX import WX
+from upload.linode import uploadAFileToLinodeWithWXMediaID, uploadAFileToLinode
+from upload.qiniu import uploadingAFileToQiNiu
 import time
 import sys
 
@@ -41,7 +41,7 @@ while True:
 	# uploadAFileToLinode(TMPDIRECTORY+'/'+'new.jpg')
 
 	time.sleep(1)
-	
+
 	snapshot.takeAShot('image.jpg',1600,1200)
 	snapshot.compressImageAndApplyWaterMark('image.jpg','new.jpg', quality=95, enWaterMark=False)
 	snapshot.storeImg('new.jpg', TMPDIRECTORY) #this saves the image after compressing but without watermark
@@ -49,5 +49,3 @@ while True:
 	uploadingAFileToQiNiu('szdiy','new.jpg',TMPDIRECTORY)
 
 	time.sleep(20)
-
-

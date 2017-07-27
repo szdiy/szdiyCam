@@ -21,7 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from credentials import QiNiuACCESS_KEY, QiNiuSECRET_KEY
+from config.credentials import QiNiuACCESS_KEY, QiNiuSECRET_KEY
 import qiniu.conf
 import qiniu.io
 import sys

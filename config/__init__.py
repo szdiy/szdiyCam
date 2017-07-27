@@ -16,5 +16,6 @@
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 
 TMPDIRECTORY  = '/tmp'
-imagePath = '/home/pi/szdiy_img'
+IMAGE_PATH = '/home/pi/szdiy_img'
+ARCHIVE_DATE = 7
 WXAPIUploadLimitPerDay = 500 #set the limit of api call per day for wechat

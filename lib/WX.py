@@ -17,7 +17,7 @@
 
 import requests
 import datetime
-from credentials import wxAppID, wxAppSecret
+from config.credentials import wxAppID, wxAppSecret
 
 urlEndPoint_AccessToken = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+wxAppID+'&secret='+wxAppSecret
 
@@ -49,10 +49,10 @@ class WX:
 	upload a file to weixin, private function
 	return (media_id, created_at)
 	return (-1,-1) upon exception
-	
+
 	"""
 	def __uploadToWx(self, image, directory):
-		files={'files': open(directory+'/'+image, 'rb')}  
+		files={'files': open(directory+'/'+image, 'rb')}
 		try:
 			r= requests.post(self.__getUrlEndpointForUpload(),files=files)
 			# print r.json()
@@ -76,12 +76,12 @@ class WX:
 		except:
 			print "upload network error"
 			return (-1,-1)
-	
+
 	"""
 	upload a file to weixin with api rate limiting
 	return (media_id, created_at)
 	return last successful media_id and created_at on error
-	
+
 	:type numbersPerDay: int
 	:param numbersPerDay: limit api call to x times per day
 	:type image: str
@@ -112,7 +112,7 @@ class WX:
 		else:
 			print 'last upload to WX happened {} seconds ago, less than {} seconds required to meet the API limit for {} times per day'.format(timeDiff, oncePerHowManySeconds, numbersPerDay)
 			print 'media_id: {} | created_at: {}'.format(self.lastMedia_id, self.lastCreated_at)
-		
+
 		return (self.lastMedia_id, self.lastCreated_at)
 
 	#weixin need to inject current access token into its upload url address
