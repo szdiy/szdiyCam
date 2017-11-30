@@ -32,11 +32,15 @@ Here are some notes for reading the source code.
 
  An interface for taking picture and proceed necessary editing.
 
+ **Note:** You can test the camera by running command `python -m picture.SZDIYPic`.
+
 ## 4. /upload
 
- * `./qiniu.py`
+ * `./qiniu_uploader.py`
 
  Wrapper for Qiniu uploading interface.
+
+ **Note:** You can test the qiniu upload by running command `python -m upload.qiniu_uploader`
 
  * `./linode.py`
 

@@ -21,34 +21,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from config.credentials import QiNiuACCESS_KEY, QiNiuSECRET_KEY
-import qiniu.conf
-import qiniu.io
-import sys
-import qiniu.rs
-import qiniu.io
+from config import TMPDIRECTORY, TMPIMAGE, QiNiuImageExpiresTime
+from config.credentials import QiNiuACCESS_KEY, QiNiuSECRET_KEY, QiNiuBucketName, QiNiuHost
+import qiniu
+import sys, os
+
+def __getQiniu():
+	return qiniu.Auth(QiNiuACCESS_KEY, QiNiuSECRET_KEY)
 
 def __upload(bucketName,fileName,localFilePath):
-	qiniu.conf.ACCESS_KEY = QiNiuACCESS_KEY
-	qiniu.conf.SECRET_KEY = QiNiuSECRET_KEY
+	q = __getQiniu()
+	token = q.upload_token(bucketName)
+	ret, info = qiniu.put_file(token, fileName, os.path.join(localFilePath, fileName))
+	print('upload result: {}\n{}'.format(ret, info))
 
-	policy = qiniu.rs.PutPolicy(bucketName)
-	policy.scope=bucketName+':'+unicode(fileName, "utf-8")
-	uptoken = policy.token()
+	return ret
 
-	extra = qiniu.io.PutExtra()
-	extra.mime_type = "image/jpeg"
-	f=open(localFilePath+'/'+fileName,'r')
-	# localfile = "%s" % f.read()
-	ret, err = qiniu.io.put(uptoken, fileName, f)
-	f.close()
-	print ret;
-	if err is not None:
-	    sys.stderr.write('error: %s ' % err)
-
-def	uploadingAFileToQiNiu(bucket,fileName,localFilePath):
+def	uploadingAFileToQiNiu(fileName,localFilePath):
 	print "uploading to qiniu"
 	try:
-		__upload(bucket,fileName,localFilePath)
+		return __upload(QiNiuBucketName,fileName,localFilePath)
 	except:
 		print "upload to QiNiu failed"
+
+def getDownloadUrl(fileName, isPrivate=False):
+	url = os.path.join(QiNiuHost, fileName)
+	if not isPrivate: # if qiniu space is public
+		return url
+	else: # if qiniu space is private
+		q = __getQiniu()
+		return q.private_download_url(url, expires=QiNiuImageExpiresTime)
+
+if __name__ == '__main__':
+	tmpfile = os.path.join(TMPDIRECTORY, TMPIMAGE)
+	if not os.path.exists(tmpfile):
+		print("Test image file not exist. Run camera test first!")
+
+	result = uploadingAFileToQiNiu('image.jpg', TMPDIRECTORY)
+	imageUrl = getDownloadUrl(result["key"])
+	print('Image url: {}'.format(imageUrl))

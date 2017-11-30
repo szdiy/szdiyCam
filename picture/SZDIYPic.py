@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with szdiyCam.  If not, see <http://www.gnu.org/licenses/>.
 
-from config import TMPDIRECTORY, IMAGE_PATH
+from config import TMPDIRECTORY, TMPIMAGE, IMAGE_PATH
 from PIL import Image, ImageDraw, ImageFont
 from picture.PictureCamera import PictureCamera
 import time, os, sys
@@ -91,5 +91,5 @@ class SZDIYPic:
 if __name__ == "__main__":
 	# Testing if screen capture is working
 	snapshot = SZDIYPic()
-	outputName = snapshot.takeAShot('image.jpg',800,600)
+	outputName = snapshot.takeAShot(TMPIMAGE,800,600)
 	print('image saved at: {}'.format(outputName))
