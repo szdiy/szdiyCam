@@ -25,9 +25,11 @@ class SZDIYPic:
 		self.aCamera = PictureCamera() #setup a camera instance
 
 	def takeAShot(self,name,width,height):
-		self.aCamera.takeAShot(name,width,height);
+		outputName = os.path.join(TMPDIRECTORY, name)
+		self.aCamera.takeAShot(outputName,width,height);
+		return outputName
 		#move the pic to tmp directory
-		os.system('mv '+name+' '+TMPDIRECTORY)
+		# os.system('mv '+name+' '+TMPDIRECTORY)
 
 	def __getPicTimeStampString(self,fileName, fileDirectory, stringFormat):
 		fileInfo = os.stat(fileDirectory+'/'+fileName)
@@ -84,3 +86,10 @@ class SZDIYPic:
 		self.__copyEXIF(TMPDIRECTORY+'/'+inputFileName,TMPDIRECTORY+'/'+outputFileName) #copy the exif data over
 
 		del im
+
+
+if __name__ == "__main__":
+	# Testing if screen capture is working
+	snapshot = SZDIYPic()
+	outputName = snapshot.takeAShot('image.jpg',800,600)
+	print('image saved at: {}'.format(outputName))
