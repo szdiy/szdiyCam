@@ -62,16 +62,16 @@ class SZDIYPic:
 		del image
 
 	def compressImageAndApplyWaterMark (self,inputFileName, outputFileName, quality=85, enWaterMark=True, **waterMarkArgs):
-		print "working on img"
+		print "compress image and apply warter mark..."
 		im = Image.open(TMPDIRECTORY+'/'+inputFileName)
 
 		if enWaterMark:
 			timeInfo = self.__getPicTimeStampString(inputFileName, TMPDIRECTORY, '%Y-%m-%d %H:%M:%S')
 
 			#pass in or define default font parameters
-			fontSize = waterMarkArgs['fontSize'] if waterMarkArgs['fontSize'] else 20
-			hLocation = waterMarkArgs['hLocation'] if waterMarkArgs['hLocation'] else 10
-			vLocation = waterMarkArgs['vLocation'] if waterMarkArgs['vLocation'] else 10
+			fontSize = waterMarkArgs.get('fontSize', 20)
+			hLocation = waterMarkArgs.get('hLocation', 10)
+			vLocation = waterMarkArgs.get('vLocation', 10)
 
 			# use a truetype font
 			fontPath = os.path.dirname(os.path.abspath(__file__))+'/'+'KellySlab-Regular.ttf'
@@ -89,7 +89,14 @@ class SZDIYPic:
 
 
 if __name__ == "__main__":
-	# Testing if screen capture is working
+	# Testing if screen capture is working.
+	#
+	# Command line:
+	# $ python -m picture.SZDIYPic
+	#
 	snapshot = SZDIYPic()
 	outputName = snapshot.takeAShot(TMPIMAGE,800,600)
 	print('image saved at: {}'.format(outputName))
+	compressedImage = os.path.join(TMPDIRECTORY, 'thumb_' + TMPIMAGE)
+	snapshot.compressImageAndApplyWaterMark(TMPIMAGE, 'thumb_' + TMPIMAGE)
+	print('compressed image saved at: {}'.format(compressedImage))
