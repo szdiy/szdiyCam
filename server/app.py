@@ -5,9 +5,10 @@
 # 2. View the latest image
 # 3. (next step) For admin to view all the images
 #
-from flask import Flask, g, request, make_response
+from flask import Flask, g, request, redirect, make_response
 from db import init_db, close_connection
 from model import save_image_info, get_latest_screenshot
+from qiniu_utils import getDownloadUrl
 import json, traceback
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ init_db( app )
 def hello_world():
     return 'SZDIY Camera Server'
 
+HTTP_MOVED_TEMPORARILY = 302
 HTTP_BAD_REQUEST = 400
 HTTP_UNAUTHORIZED = 401
 HTTP_FORBIDDEN = 403
@@ -70,9 +72,25 @@ def screenshot_latest(deviceId):
             HTTP_NOT_FOUND)
 
     print( 'latest screenshot: {}'.format( screenshot ) )
+    try:
 
-    # TODO change it to 302 redirect
-    return success_resposne( screenshot )
+        # can return json for debug information
+        if request.args.get('format') == 'json':
+            return success_resposne( screenshot )
+
+        # return
+        key = screenshot.get('image_key', '')
+        if not key:
+            return error_response('Image key not found in the record', HTTP_NOT_FOUND)
+        download_link = getDownloadUrl( key )
+        return redirect(download_link, code=HTTP_MOVED_TEMPORARILY)
+    except Exception as e:
+        traceback.print_exc()
+
+    return error_response('Get image error', HTTP_MOVED_TEMPORARILY)
+
+
+
 
 
 @app.teardown_appcontext
