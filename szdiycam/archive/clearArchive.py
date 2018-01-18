@@ -18,7 +18,7 @@
 import os
 import shutil
 from datetime import datetime
-from config import IMAGE_PATH, ARCHIVE_DATE
+from config import ARCHIVE_DATE
 
 def date_diff(dateStr):
     try:
@@ -29,13 +29,16 @@ def date_diff(dateStr):
         print("cannot parse:" + str(dateStr))
         return -1
 
-def clear_archive():
-    for folder in os.listdir(ARCHIVE_PATH):
+def clear_archive(imgPath):
+    print( 'cleaning files in archive path: {}'.format(imgPath))
+
+    for folder in os.listdir(imgPath):
         if date_diff(folder) > ARCHIVE_DATE:
-            shutil.rmtree(os.path.join(ARCHIVE_PATH, folder))
+            shutil.rmtree(os.path.join(imgPath, folder))
             print("delete folder: " + str(folder))
 
 
 
 if __name__ == '__main__':
-    clear_archive()
+    from config import IMAGE_PATH
+    clear_archive( IMAGE_PATH )

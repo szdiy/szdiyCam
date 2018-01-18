@@ -19,6 +19,11 @@ TMPDIRECTORY  = '/tmp'
 TMPIMAGE = 'image.jpg'
 IMAGE_PATH = '/home/pi/szdiy_img'
 ARCHIVE_DATE = 7
+SOCKET_TIMEOUT = 30 # 30sec
+SLEEP_PERIOD = 20 # 20sec per snapshot at least
+
+# WX plugin
 WXAPIUploadLimitPerDay = 500 #set the limit of api call per day for wechat
 
+# Qiniu plugin
 QiNiuImageExpiresTime = 3600
